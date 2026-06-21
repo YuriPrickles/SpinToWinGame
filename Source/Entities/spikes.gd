@@ -29,10 +29,11 @@ func _draw() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if body is Player and body is not TileMapLayer:
 		var allow_pass = false
 		var vel = body.velocity.rotated(body.collider.rotation)
-		match int(abs(rotation_degrees))% 360:
+		print(roundi(abs(rotation_degrees)) % 360)
+		match roundi(abs(rotation_degrees)) % 360:
 			0:
 				if vel.y < 0:
 					allow_pass = true

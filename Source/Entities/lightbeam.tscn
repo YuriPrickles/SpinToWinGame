@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bw75wcia533mx"]
+
+[ext_resource type="Script" uid="uid://bdehe1wtktbpl" path="res://Source/Entities/lightbeam.gd" id="1_u4shv"]
+
+[node name="Lightbeam" type="Node2D" unique_id=1788840752]
+z_index = -2
+script = ExtResource("1_u4shv")

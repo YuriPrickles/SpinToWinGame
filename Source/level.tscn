@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://dc6a4grntw3bk" path="res://Source/level.gd" id="1_s0ou1"]
 [ext_resource type="TileSet" uid="uid://6ood77vf4rww" path="res://Assets/Gameplay/test_tileset.tres" id="2_s0ou1"]
 
-[node name="Level" type="Node2D" unique_id=1870738550]
+[node name="Level" type="Node2D" unique_id=1870738550 node_paths=PackedStringArray("foreground_tiles")]
 script = ExtResource("1_s0ou1")
 bounds = Rect2(0, 0, 40, 40)
+foreground_tiles = NodePath("ForegroundTiles")
 
 [node name="ForegroundTiles" type="TileMapLayer" parent="." unique_id=1363584698]
+z_index = -2
 tile_set = ExtResource("2_s0ou1")

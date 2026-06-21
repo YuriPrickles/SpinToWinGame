@@ -12,6 +12,7 @@ var level_cover = LevelCover.new()
 func _ready() -> void:
 	foreground_tiles = get_node("ForegroundTiles")
 	foreground_tiles.z_index = Main.Depths.FGTiles
+	level_cover.level = self
 	add_child(level_cover)
 	level_cover.z_index = Main.Depths.LevelCover
 	level_cover.z_as_relative = false
@@ -24,7 +25,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 	else:
 		queue_redraw()
-		level_cover.queue_redraw()	
+		level_cover.queue_redraw()
 
 func get_nearest_respawn(pos:Vector2):
 	var distance = INF
@@ -40,15 +41,11 @@ func get_nearest_respawn(pos:Vector2):
 func _draw() -> void:
 	if Engine.is_editor_hint():
 		draw_rect(Rect2(Vector2.ZERO,bounds.size),Color.ORANGE,false,3)
-	else:
-		draw_rect(Rect2(Vector2.ZERO,bounds.size),Color.BLACK * cover_opacity, true)
-		for i in range(0,8,4):
-			draw_rect(Rect2(Vector2.ZERO,bounds.size),Color.BLACK * 0.6, false,i,true)
 class LevelCover:
 	extends Node2D
 	var level:Level
 	func _draw() -> void:
-		if not level: return
+		if not level or Engine.is_editor_hint(): return
 		draw_rect(Rect2(Vector2.ZERO,level.bounds.size),Color.BLACK * level.cover_opacity, true)
 		for i in range(0,8,4):
 			draw_rect(Rect2(Vector2.ZERO,level.bounds.size),Color.BLACK * 0.6, false,i,true)
