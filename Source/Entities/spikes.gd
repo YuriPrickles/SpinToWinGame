@@ -37,13 +37,13 @@ func _on_body_entered(body: Node2D) -> void:
 				if vel.y < 0:
 					allow_pass = true
 			90:
-				if vel.x > 0:
+				if vel.x < 0:
 					allow_pass = true
 			180:
 				if vel.y > 0:
 					allow_pass = true
 			270:
-				if vel.x < 0:
+				if vel.x > 0:
 					allow_pass = true
 		if not body.is_rotating and not allow_pass:
 			body.respawn()
