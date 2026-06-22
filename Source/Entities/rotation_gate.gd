@@ -36,8 +36,8 @@ func _process(delta: float) -> void:
 	elif Main.main.should_update(self):
 		queue_redraw()
 		active = Main.main.map.normalized_rotation != roundi(direction) 
-		if active and player_detector.get_overlapping_bodies().has(Main.main.get_player()):
-			active = false
+		#if active and player_detector.get_overlapping_bodies().has(Main.main.get_player()):
+			#active = false
 		collider.disabled = not active
 		for spike in get_children():
 			if spike is Spikes:
