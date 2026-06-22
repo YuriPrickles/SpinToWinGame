@@ -28,17 +28,17 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	collider.shape.size = Vector2(width,height)
 	collider.position = Vector2(width,height) / 2
-	area_2d_collider.shape.size = Vector2(width,height)
-	player_detector.position = Vector2(width,height) / 2
+	area_2d_collider.shape.size = Vector2(width-4,height-4)
+	player_detector.position = ((Vector2(width,height)) / 2) 
 	if Engine.is_editor_hint():
 		pass
 		
 	elif Main.main.should_update(self):
 		queue_redraw()
-		active = Main.main.map.normalized_rotation != roundi(direction) and not player_detector.get_overlapping_bodies().has(Main.main.get_player())
-		if player_detector.get_overlapping_bodies().has(Main.main.get_player()):
+		active = Main.main.map.normalized_rotation != roundi(direction) 
+		if active and player_detector.get_overlapping_bodies().has(Main.main.get_player()):
 			active = false
-		set_collision_layer_value(4,active)
+		collider.disabled = not active
 		for spike in get_children():
 			if spike is Spikes:
 				spike.modulate = Color.CRIMSON if active else Color.DARK_GREEN
@@ -66,5 +66,4 @@ func _draw() -> void:
 	draw_texture_rect_region(block_texture,Rect2(Vector2.ZERO,Vector2(width,height)),Rect2(Vector2(0,draw_offset),Vector2(24,24)))
 	draw_texture_rect_region(face_texture,Rect2(Vector2((width-24)/2,(height-24)/2),Vector2(24,24)),Rect2(Vector2(24 * arrow_draw_offset,draw_offset),Vector2(24,24)))
 
-	if name == "RotationGate5":
-		draw_string(ThemeDB.fallback_font,Vector2(width/2,height/2),str(active),HORIZONTAL_ALIGNMENT_CENTER,-1, 16)
+	draw_string(ThemeDB.fallback_font,Vector2(width/2,height/2),str(active),HORIZONTAL_ALIGNMENT_CENTER,-1, 16)

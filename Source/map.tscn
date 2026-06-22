@@ -119,22 +119,6 @@ width = 256
 [node name="Respawn" parent="a-02" unique_id=1462067529 instance=ExtResource("3_3q4c1")]
 position = Vector2(16, 88)
 
-[node name="RotationGate5" parent="a-02" unique_id=1156283733 instance=ExtResource("6_vtree")]
-z_index = -1
-position = Vector2(80, 24)
-width = 128
-height = 128
-
-[node name="Spikes" parent="a-02/RotationGate5" unique_id=1740956156 instance=ExtResource("3_5ecf7")]
-position = Vector2(240, -136)
-rotation = 1.5707964
-width = 128
-
-[node name="Spikes2" parent="a-02/RotationGate5" unique_id=478117120 instance=ExtResource("3_5ecf7")]
-position = Vector2(96, -8)
-rotation = -1.5707964
-width = 128
-
 [node name="RotationGate" parent="a-02" unique_id=563397647 instance=ExtResource("6_vtree")]
 z_index = -1
 position = Vector2(64, 96)
