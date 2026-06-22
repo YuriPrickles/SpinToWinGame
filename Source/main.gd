@@ -21,3 +21,6 @@ func get_player() -> Player:
 
 func should_update(entity:Node) -> bool:
 	return get_player().current_level == (entity.get_parent() as Level)
+
+static func normalize_rotation(degrees:float) -> int:
+	return absi((roundi(degrees) % 360) - 180) % 360

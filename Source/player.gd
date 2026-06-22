@@ -56,6 +56,8 @@ func _process(delta: float) -> void:
 
 func respawn():
 	if not respawning:
+		velocity = Vector2.ZERO
+		move_and_slide()
 		respawning = true
 		camera_shake(7, 5,0.016)
 		await get_tree().create_timer(0.3).timeout
@@ -65,7 +67,7 @@ func respawn():
 		tween.tween_property(self,"position",current_level.position + respawn_attached.position,0.3).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 		tween.tween_callback(func(): respawning = false)
 func _physics_process(delta: float) -> void:
-	if is_rotating: return
+	if is_rotating or respawning: return
 	if not is_on_floor():
 		if not jumping: coyote_timer += delta
 		velocity.y = clampf(velocity.y + (get_gravity().y * delta),JUMP_VELOCITY, MAX_FALL_SPEED)

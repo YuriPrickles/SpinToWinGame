@@ -32,6 +32,6 @@ func _draw() -> void:
 	for j in range(4):
 		for i in range(width / 4):
 			i += 1
-			var rect_size = Vector2(8,height + sin(Engine.get_frames_drawn() * 0.05 * i / height) * height )
+			var rect_size = Vector2(8,height + sin((Engine.get_frames_drawn() + offsets[j]) * 0.05 * i / height) * height )
 			var rect_pos = Vector2(sin((Engine.get_frames_drawn() + offsets[j]) * 0.02 * i + (i*i)) * width/2 - 4,0)
-			draw_rect(Rect2(rect_pos,rect_size),Color(0.871, 1.0, 0.89, 1.0) * 0.7 * opacity)
+			draw_rect(Rect2(rect_pos,rect_size),Color(0.871, 1.0, 0.89, 1.0) * 0.4 * opacity)

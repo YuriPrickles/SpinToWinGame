@@ -12,6 +12,7 @@ size = Vector2(8, 12)
 
 [node name="Player" type="CharacterBody2D" unique_id=56060189]
 z_index = -1
+collision_mask = 14
 script = ExtResource("1_tfb11")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=992753916]
@@ -24,7 +25,6 @@ texture = ExtResource("2_yo7go")
 texture_scale = 0.5
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=2072437805]
-light_mask = 2
 texture = SubResource("AtlasTexture_tfb11")
 centered = false
 offset = Vector2(-8, -10)

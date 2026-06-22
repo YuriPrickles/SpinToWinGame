@@ -65,6 +65,13 @@ rotate_right={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Hazards"
+2d_physics/layer_3="FGTiles"
+2d_physics/layer_4="Entities"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

@@ -8,6 +8,7 @@ size = Vector2(8, 4)
 
 [node name="Spikes" type="Area2D" unique_id=639336231]
 z_index = -1
+collision_layer = 2
 script = ExtResource("1_rgmxl")
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1079699564]

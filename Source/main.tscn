@@ -11,4 +11,4 @@ map = NodePath("Map")
 [node name="Map" parent="." unique_id=1409200960 instance=ExtResource("2_uglvk")]
 
 [node name="Player" parent="Map" unique_id=56060189 instance=ExtResource("3_fqc6k")]
-position = Vector2(40, 168)
+position = Vector2(48, 160)

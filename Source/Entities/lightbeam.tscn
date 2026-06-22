@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bdehe1wtktbpl" path="res://Source/Entities/lightbeam.gd" id="1_u4shv"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yo7go"]
+blend_mode = 1
+light_mode = 1
+
 [node name="Lightbeam" type="Node2D" unique_id=1788840752]
 z_index = -2
+material = SubResource("CanvasItemMaterial_yo7go")
 script = ExtResource("1_u4shv")

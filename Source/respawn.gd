@@ -7,8 +7,8 @@ extends Node2D
 enum DefaultRotations{
 	UP = 0,
 	DOWN = 180,
-	LEFT = 270,
-	RIGHT = 90
+	RIGHT = 270,
+	LEFT = 90
 }
 
 func _ready() -> void:

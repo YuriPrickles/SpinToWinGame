@@ -32,7 +32,8 @@ func get_nearest_respawn(pos:Vector2):
 	var respawn:Respawn = null
 	for node in get_children():
 		if node is Respawn:
-			if node.position.distance_to(pos) < distance:
+			print(node.name + ": " + str(node.position.distance_to(pos - position)))
+			if node.position.distance_to(pos - position) < distance:
 				distance = node.position.distance_to(pos)
 				respawn = node
 	print(respawn.position)
