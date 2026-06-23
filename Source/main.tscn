@@ -12,3 +12,14 @@ map = NodePath("Map")
 
 [node name="Player" parent="Map" unique_id=56060189 instance=ExtResource("3_fqc6k")]
 position = Vector2(48, 160)
+
+[node name="VeryBackground" type="CanvasLayer" parent="." unique_id=1056397035]
+layer = -1
+
+[node name="VBColorRect" type="ColorRect" parent="VeryBackground" unique_id=1939501682]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.6901961, 0.6627451, 0.69411767, 1)

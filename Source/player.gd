@@ -168,6 +168,9 @@ class OnDeathBoom:
 		position = pos
 		reverse = rev
 		if rev: max_time = 0.5
+		material = CanvasItemMaterial.new()
+		material.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+		material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 	
 	func _process(delta: float) -> void:
 		timer += delta
@@ -187,7 +190,7 @@ var respawn_orb_size:float = -2
 func _draw() -> void:
 	if draw_respawn_orb:
 		player_sprite.visible = false
-		draw_circle(Vector2(2,2).rotated(Engine.get_frames_drawn()*0.1),sin(Engine.get_frames_drawn() * 0.1) + respawn_orb_size,Color.WHITE)
+		draw_circle(Vector2(1,1).rotated(Engine.get_frames_drawn()*0.1),sin(Engine.get_frames_drawn() * 0.1) + respawn_orb_size,Color.WHITE)
 	else:
 		player_sprite.visible = true
 	pass

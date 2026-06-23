@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 		collider.disabled = not active
 		for spike in get_children():
 			if spike is Spikes:
-				spike.modulate = Color.CRIMSON if active else Color.DARK_GREEN
+				spike.modulate = Color.GOLD if active else Color.DARK_SLATE_GRAY
 				spike.monitoring = active
 	queue_redraw()
 	
@@ -62,7 +62,18 @@ func _draw() -> void:
 	if not Engine.is_editor_hint():
 		draw_offset = 0 if Main.main.map.normalized_rotation != roundi(direction) else 24
 	
-	draw_texture_rect_region(block_texture,Rect2(Vector2.ZERO,Vector2(width,height)),Rect2(Vector2(0,draw_offset),Vector2(24,24)))
+	draw_texture_rect_region(block_texture,Rect2(Vector2.ZERO,Vector2(8,8)),Rect2(Vector2(0,draw_offset),Vector2(8,8)))
+	draw_texture_rect_region(block_texture,Rect2(Vector2(width-8,0),Vector2(8,8)),Rect2(Vector2(16,0 + draw_offset),Vector2(8,8)))
+	draw_texture_rect_region(block_texture,Rect2(Vector2(0,height-8),Vector2(8,8)),Rect2(Vector2(0,16 + draw_offset),Vector2(8,8)))
+	draw_texture_rect_region(block_texture,Rect2(Vector2(width-8,height-8),Vector2(8,8)),Rect2(Vector2(16,16 + draw_offset),Vector2(8,8)))
+	for i in range(0,width-16,8):
+		draw_texture_rect_region(block_texture,Rect2(Vector2(8 + i,0),Vector2(8,8)),Rect2(Vector2(8,draw_offset),Vector2(8,8)))
+		draw_texture_rect_region(block_texture,Rect2(Vector2(8 + i,height-8),Vector2(8,8)),Rect2(Vector2(8,16 + draw_offset),Vector2(8,8)))
+	for i in range(0,height-16,8):
+		draw_texture_rect_region(block_texture,Rect2(Vector2(width-8,8 + i),Vector2(8,8)),Rect2(Vector2(16,8+draw_offset),Vector2(8,8)))
+		draw_texture_rect_region(block_texture,Rect2(Vector2(0,8 + i),Vector2(8,8)),Rect2(Vector2(0,8+draw_offset),Vector2(8,8)))
+	draw_texture_rect_region(block_texture,Rect2(Vector2(8,8),Vector2(width-16,height-16)),Rect2(Vector2(8,8 + draw_offset),Vector2(8,8)))
+	
 	draw_texture_rect_region(face_texture,Rect2(Vector2((width-24)/2,(height-24)/2),Vector2(24,24)),Rect2(Vector2(24 * arrow_draw_offset,draw_offset),Vector2(24,24)))
 
 	#draw_string(ThemeDB.fallback_font,Vector2(width/2,height/2),str(active),HORIZONTAL_ALIGNMENT_CENTER,-1, 16)

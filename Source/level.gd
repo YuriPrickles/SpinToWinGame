@@ -28,6 +28,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 	else:
 		queue_redraw()
+		level_cover.draw_cover = Main.main.get_player().current_level != self
 		level_cover.queue_redraw()
 
 func get_nearest_respawn(pos:Vector2):
@@ -48,8 +49,15 @@ func _draw() -> void:
 class LevelCover:
 	extends Node2D
 	var level:Level
+	var draw_cover:bool = false
+	func _ready() -> void:
+		material = CanvasItemMaterial.new()
 	func _draw() -> void:
+		if material:
+			material.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+			material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 		if not level or Engine.is_editor_hint(): return
-		draw_rect(Rect2(Vector2.ZERO,level.true_bounds.size),Color.BLACK * level.cover_opacity, true)
-		for i in range(0,8,4):
-			draw_rect(Rect2(Vector2.ZERO,level.true_bounds.size),Color.BLACK * 0.6, false,i,true)
+		for i in range(0,24,1):
+			draw_rect(Rect2(Vector2.ZERO,level.true_bounds.size),Main.VOID_COLOR * 0.1, false,i,false)
+		if draw_cover:
+			draw_rect(Rect2(Vector2.ZERO,level.true_bounds.size),Main.VOID_COLOR * level.cover_opacity, true)

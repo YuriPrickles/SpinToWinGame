@@ -9,12 +9,20 @@ enum Depths{
 	Entities = -1,
 	FGTiles = -2,
 	BGTiles = -3,
+	VeryBackground = -99,
 }
+@onready var very_background: CanvasLayer = $VeryBackground
+@onready var vb_color_rect: ColorRect = $VeryBackground/VBColorRect
 
 static var main:Main
 
+const VOID_COLOR:Color = Color("b0a9b1")
+
 func _init() -> void:
 	main = self
+
+func _ready() -> void:
+	vb_color_rect.color = VOID_COLOR
 
 func get_player() -> Player:
 	return map.get_node("Player")
