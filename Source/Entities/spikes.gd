@@ -22,6 +22,8 @@ func _process(delta: float) -> void:
 		(collider.shape as RectangleShape2D).size = Vector2(width, 4)
 		queue_redraw()
 	elif Main.main.should_update(self):
+		collider.position = Vector2(width/2,6)
+		(collider.shape as RectangleShape2D).size = Vector2(width, 4)
 		var plr:Player = Main.main.get_player()
 		if plr.StateMachine == Player.State.ROTATING:
 			monitoring = false
@@ -37,6 +39,7 @@ func _draw() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player and body is not StaticBody2D:
+		if body.StateMachine == Player.State.ROTATING: return
 		var kill = false
 		var vel:Vector2 = body.velocity
 		vel = vel.round()
@@ -59,5 +62,5 @@ func _on_body_entered(body: Node2D) -> void:
 				if vel.x >= 0:
 					kill = true
 					
-		if not body.StateMachine == Player.State.ROTATING and kill and not body.StateMachine == Player.State.RESPAWNING:
+		if kill and not body.StateMachine == Player.State.RESPAWNING:
 			body.respawn()

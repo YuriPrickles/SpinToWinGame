@@ -40,6 +40,7 @@ func get_nearest_respawn(pos:Vector2):
 			if node.position.distance_to(pos - position) < distance:
 				distance = node.position.distance_to(pos - position)
 				respawn = node
+	assert(respawn, "Idiot!!!! Put a respawn in the fucking room you imbecile!!!")
 	print("respawning at: ", respawn.name, " ",respawn.position)
 	return respawn
 

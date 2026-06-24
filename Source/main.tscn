@@ -5,18 +5,37 @@
 [ext_resource type="PackedScene" uid="uid://bb8b26ihlln7r" path="res://Source/player.tscn" id="3_fqc6k"]
 
 [node name="Main" type="Node" unique_id=759547695 node_paths=PackedStringArray("map")]
+process_mode = 3
 script = ExtResource("1_p7x2e")
-map = NodePath("Map")
+map = NodePath("SubViewportContainer/SubViewport/Map")
 
-[node name="Map" parent="." unique_id=1409200960 instance=ExtResource("2_uglvk")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1682382462]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(6, 6)
 
-[node name="Player" parent="Map" unique_id=56060189 instance=ExtResource("3_fqc6k")]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=595702773]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(320, 180)
+size_2d_override = Vector2i(320, 180)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Map" parent="SubViewportContainer/SubViewport" unique_id=1409200960 instance=ExtResource("2_uglvk")]
+
+[node name="Player" parent="SubViewportContainer/SubViewport/Map" unique_id=56060189 instance=ExtResource("3_fqc6k")]
+texture_filter = 1
 position = Vector2(48, 160)
 
-[node name="VeryBackground" type="CanvasLayer" parent="." unique_id=1056397035]
+[node name="VeryBackground" type="CanvasLayer" parent="SubViewportContainer/SubViewport" unique_id=1056397035]
 layer = -1
 
-[node name="VBColorRect" type="ColorRect" parent="VeryBackground" unique_id=1939501682]
+[node name="VBColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport/VeryBackground" unique_id=1939501682]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

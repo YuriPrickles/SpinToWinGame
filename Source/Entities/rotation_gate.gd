@@ -35,7 +35,11 @@ func _process(delta: float) -> void:
 		
 	elif Main.main.should_update(self):
 		queue_redraw()
-		active = Main.main.map.normalized_rotation != roundi(direction) 
+		if shake_timer > 0:
+			shake_timer -= delta
+		if Main.main.map.normalized_rotation != roundi(direction) != active:
+			shake_timer = 0.1
+		active = Main.main.map.normalized_rotation != roundi(direction)
 		#if active and player_detector.get_overlapping_bodies().has(Main.main.get_player()):
 			#active = false
 		collider.disabled = not active
@@ -43,10 +47,17 @@ func _process(delta: float) -> void:
 			if spike is Spikes:
 				spike.modulate = Color.GOLD if active else Color.DARK_SLATE_GRAY
 				spike.monitoring = active
+	else:
+		shake_timer = 0
 	queue_redraw()
-	
+
+var shake_timer:float = 0
 
 func _draw() -> void:
+	if shake_timer > 0:
+		draw_set_transform(Vector2(randf_range(-1,1),randf_range(-1,1)))
+	else:
+		draw_set_transform(Vector2.ZERO)
 	var arrow_draw_offset:int = 0
 	match direction:
 		0:

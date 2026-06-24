@@ -138,6 +138,7 @@ size = Vector2(8, 12)
 [node name="Player" type="CharacterBody2D" unique_id=56060189]
 z_index = -1
 collision_mask = 14
+floor_max_angle = 0.0
 script = ExtResource("1_tfb11")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=992753916]
@@ -155,7 +156,7 @@ light_mask = 2
 material = SubResource("CanvasItemMaterial_yo7go")
 sprite_frames = SubResource("SpriteFrames_coxhp")
 animation = &"spin"
-frame_progress = 0.1968878
+frame_progress = 0.6107373
 centered = false
 offset = Vector2(-8, -10)
 

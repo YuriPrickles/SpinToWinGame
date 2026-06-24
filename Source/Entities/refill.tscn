@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bay6uh3eo6ins"]
+
+[ext_resource type="Script" uid="uid://ci6anrd4fhfoa" path="res://Source/Entities/refill.gd" id="1_jc0a5"]
+[ext_resource type="Texture2D" uid="uid://dqma0h0xcyc2d" path="res://Assets/Gameplay/objects/refill/refill.png" id="1_qlkg5"]
+[ext_resource type="Texture2D" uid="uid://cy8dar1ng1ad2" path="res://Assets/Misc/pointlight.png" id="3_665if"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc0a5"]
+atlas = ExtResource("1_qlkg5")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_665if"]
+atlas = ExtResource("1_qlkg5")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_coxhp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc0a5")
+}],
+"loop": 1,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_665if")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_coxhp"]
+size = Vector2(12, 12)
+
+[node name="Refill" type="Area2D" unique_id=1112793889]
+script = ExtResource("1_jc0a5")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=674685622]
+sprite_frames = SubResource("SpriteFrames_coxhp")
+animation = &"idle"
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1239379123]
+shape = SubResource("RectangleShape2D_coxhp")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1849771028]
+texture = ExtResource("3_665if")
+texture_scale = 0.2
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

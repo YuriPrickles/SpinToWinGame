@@ -12,7 +12,7 @@ const MAX_FALL_SPEED = 200
 @onready var collider: CollisionShape2D = $Collider
 
 
-const COYOTE_MAX:float = 0.2
+const COYOTE_MAX:float = 0.1
 var coyote_timer:float = 0
 
 const BUFFER_MAX:float = 0.1
@@ -24,6 +24,9 @@ var respawn_attached: Respawn
 var draw_respawn_orb:bool=false
 
 var next_jump_boost:Vector2 = Vector2.ZERO
+
+var spins = 1
+var MAX_SPINS = 1
 
 enum State{
 	NORMAL=0,
@@ -75,26 +78,36 @@ func _physics_process(delta: float) -> void:
 	if StateMachine == State.ROTATING or StateMachine == State.RESPAWNING: return
 	if not is_on_floor():
 		if not StateMachine == State.JUMPING: coyote_timer += delta
-		velocity.y = clampf(velocity.y + (get_gravity().y * delta),JUMP_VELOCITY, MAX_FALL_SPEED)
-	if is_on_floor() and buffer_timer < BUFFER_MAX:
-		jump()
-		buffer_timer = 0
+		else: coyote_timer = 0
+		velocity.y = clampf(velocity.y + (get_gravity().y * delta),-INF, MAX_FALL_SPEED)
+	if coyote_timer > 0: next_jump_boost = Vector2.ZERO
 	if not StateMachine == State.ROTATING and buffering and buffer_timer < BUFFER_MAX:
 		buffer_timer += delta
-			
-	if is_on_floor() and StateMachine == State.JUMPING:
-		StateMachine = State.NORMAL
+	
+	#modulate = Color.WHITE
+	#if buffer_timer < BUFFER_MAX:
+		#modulate = Color.BLUE
+	#if coyote_timer > 0 and coyote_timer < COYOTE_MAX:
+		#modulate = Color.RED
+	#if buffer_timer < BUFFER_MAX and coyote_timer > 0 and coyote_timer < COYOTE_MAX:
+		#modulate = Color.PURPLE
+	
+	if is_on_floor():
+		if coyote_timer >= 0 and StateMachine == State.NORMAL and spins < MAX_SPINS:
+			#modulate = Color.GREEN
+			spins = MAX_SPINS
+		coyote_timer = 0
+		if StateMachine == State.JUMPING:
+			StateMachine = State.NORMAL
+		if buffer_timer < BUFFER_MAX:
+			jump()
+			buffer_timer = 0
+			StateMachine = State.JUMPING
+		
 	var rotate_dir:float = Input.get_axis("rotate_left", "rotate_right")
-	modulate = Color.WHITE
-	if buffer_timer < BUFFER_MAX:
-		modulate = Color.BLUE
-	if coyote_timer > 0 and coyote_timer < COYOTE_MAX:
-		modulate = Color.RED
-	if buffer_timer < BUFFER_MAX and coyote_timer > 0 and coyote_timer < COYOTE_MAX:
-		modulate = Color.PURPLE
-	if rotate_dir and not StateMachine == State.ROTATING:
+	if spins > 0 and rotate_dir and not StateMachine == State.ROTATING:
 		var rotation_value = 90 * rotate_dir
-		rotate_level(rotation_value)
+		rotate_level(rotation_value, true)
 	var direction := Input.get_axis("left", "right")
 	if direction:
 		velocity.x = move_toward(velocity.x,direction * SPEED, ACCEL)
@@ -117,11 +130,11 @@ func do_animation():
 	
 
 func jump(vel = JUMP_VELOCITY):
-	velocity.y = vel
-	velocity += next_jump_boost
+	if next_jump_boost.y < 0: Main.main.freeze(0.1)
+	velocity.y = vel + next_jump_boost.y
 	next_jump_boost = Vector2.ZERO
 
-func rotate_level(rot:int):
+func rotate_level(rot:int,manual=false):
 	var was_on_floor = is_on_floor()
 	var state_to_return = StateMachine
 	if not StateMachine == State.RESPAWNING:
@@ -136,8 +149,12 @@ func rotate_level(rot:int):
 	tween.tween_callback(func():
 		StateMachine = state_to_return
 		if was_on_floor:
-			next_jump_boost = Vector2(0,JUMP_VELOCITY * 3)
-			coyote_timer = -0.05
+			if not is_on_floor():
+				StateMachine = State.JUMPING
+			next_jump_boost = Vector2(0,JUMP_VELOCITY * 0.5)
+			coyote_timer = -0.08
+		if manual:
+			spins -= 1
 		)
 
 func camera_shake(strength:float, frames:float,delta:float):
@@ -147,6 +164,7 @@ func camera_shake(strength:float, frames:float,delta:float):
 	camera.offset = Vector2.ZERO
 
 func respawn():
+	Main.main.freeze(0.1)
 	print(StateMachine)
 	if not StateMachine == State.RESPAWNING:
 		StateMachine = State.RESPAWNING

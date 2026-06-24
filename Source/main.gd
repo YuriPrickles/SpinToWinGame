@@ -11,8 +11,8 @@ enum Depths{
 	BGTiles = -3,
 	VeryBackground = -99,
 }
-@onready var very_background: CanvasLayer = $VeryBackground
-@onready var vb_color_rect: ColorRect = $VeryBackground/VBColorRect
+@onready var very_background: CanvasLayer = $SubViewportContainer/SubViewport/VeryBackground
+@onready var vb_color_rect: ColorRect = $SubViewportContainer/SubViewport/VeryBackground/VBColorRect
 
 static var main:Main
 
@@ -35,3 +35,8 @@ static func normalize_rotation(degrees:float) -> int:
 	var initial_normalized = (roundi(degrees) % 360)
 	if initial_normalized < 0: initial_normalized += 360
 	return initial_normalized
+
+func freeze(time:float):
+	get_tree().paused = true
+	await get_tree().create_timer(time).timeout
+	get_tree().paused = false
