@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://de7a4gspmnnwp"]
 
 [ext_resource type="Script" uid="uid://u8wrtripaoi7" path="res://Source/ui.gd" id="1_petpp"]
+[ext_resource type="Script" uid="uid://cbpr7yoabhbjl" path="res://Source/rotating_pause_menu.gd" id="2_3c1jp"]
+[ext_resource type="Script" uid="uid://k38ilul7k7cl" path="res://Source/settingsmenu.gd" id="3_cnq1b"]
 
 [node name="UI" type="Control" unique_id=872302939]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,3 +49,147 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 bbcode_enabled = true
 text = "[center][font_size=64]Jump while spinning to do a [wave]spinboost[/wave]!"
+
+[node name="PauseMenu" type="ColorRect" parent="." unique_id=503807198]
+process_mode = 3
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6862745)
+
+[node name="VBoxContainer" type="MarginContainer" parent="PauseMenu" unique_id=655969913]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.5
+offset_right = 32.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/VBoxContainer" unique_id=358923761]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenu/VBoxContainer/VBoxContainer" unique_id=2065028488]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=128][center]Paused[br][font_size=48][center]<<< [Q]------------[E] >>>"
+fit_content = true
+scroll_active = false
+
+[node name="VBoxContainer2" type="CenterContainer" parent="PauseMenu/VBoxContainer/VBoxContainer" unique_id=477339450]
+layout_mode = 2
+size_flags_vertical = 3
+offset_transform_enabled = true
+script = ExtResource("2_3c1jp")
+
+[node name="Continue" type="RichTextLabel" parent="PauseMenu/VBoxContainer/VBoxContainer/VBoxContainer2" unique_id=2086735462]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -256)
+offset_transform_pivot = Vector2(0, 256)
+bbcode_enabled = true
+text = "[font_size=64][center]Continue"
+fit_content = true
+scroll_active = false
+
+[node name="Respawn" type="RichTextLabel" parent="PauseMenu/VBoxContainer/VBoxContainer/VBoxContainer2" unique_id=1417425263]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -256)
+offset_transform_rotation = 1.5707964
+offset_transform_pivot = Vector2(0, 256)
+bbcode_enabled = true
+text = "[font_size=64][center]Respawn"
+fit_content = true
+scroll_active = false
+
+[node name="Exit" type="RichTextLabel" parent="PauseMenu/VBoxContainer/VBoxContainer/VBoxContainer2" unique_id=858071555]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -256)
+offset_transform_rotation = 3.1415927
+offset_transform_pivot = Vector2(0, 256)
+bbcode_enabled = true
+text = "[font_size=64][center]Exit
+"
+fit_content = true
+scroll_active = false
+
+[node name="Settings" type="RichTextLabel" parent="PauseMenu/VBoxContainer/VBoxContainer/VBoxContainer2" unique_id=105289220]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -256)
+offset_transform_rotation = 4.712389
+offset_transform_pivot = Vector2(0, 256)
+bbcode_enabled = true
+text = "[font_size=64][center]Settings"
+fit_content = true
+scroll_active = false
+
+[node name="SettingsMenu" type="MarginContainer" parent="PauseMenu" unique_id=578616304]
+visible = false
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.5
+offset_right = 32.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/SettingsMenu" unique_id=1522825875]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenu/SettingsMenu/VBoxContainer" unique_id=251608333]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=128][center]Settings"
+fit_content = true
+scroll_active = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/SettingsMenu/VBoxContainer" unique_id=2123083927]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_cnq1b")
+
+[node name="Guide" type="RichTextLabel" parent="PauseMenu/SettingsMenu/VBoxContainer/VBoxContainer" unique_id=1702061739]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=48][center]<<< [Q]------------[E] >>>"
+fit_content = true
+scroll_active = false
+
+[node name="Music" type="RichTextLabel" parent="PauseMenu/SettingsMenu/VBoxContainer/VBoxContainer" unique_id=1945219146]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=64][left]Music: 100"
+fit_content = true
+scroll_active = false
+
+[node name="SFX" type="RichTextLabel" parent="PauseMenu/SettingsMenu/VBoxContainer/VBoxContainer" unique_id=1221490654]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=64][left]SFX: 100"
+fit_content = true
+scroll_active = false

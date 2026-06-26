@@ -3,6 +3,15 @@
 [ext_resource type="Script" uid="uid://bh5bup7f157tj" path="res://Source/player.gd" id="1_tfb11"]
 [ext_resource type="Texture2D" uid="uid://cy8dar1ng1ad2" path="res://Assets/Misc/pointlight.png" id="2_yo7go"]
 [ext_resource type="Texture2D" uid="uid://bxf35y1quiw8j" path="res://Assets/Gameplay/characters/ballerina.png" id="3_yo7go"]
+[ext_resource type="AudioStream" uid="uid://b2l7pwauidqml" path="res://Assets/SFX/foley_footstep_vinyl_1.wav" id="4_2dja2"]
+[ext_resource type="AudioStream" uid="uid://dw413bajpjn4m" path="res://Assets/SFX/WHOOSH_AIRY_FLUTTER_01.wav" id="4_h6ae0"]
+[ext_resource type="AudioStream" uid="uid://fnsse2a0ys5e" path="res://Assets/SFX/WHOOSH_ARM_SWING_01_WIDE.wav" id="5_afm8r"]
+[ext_resource type="AudioStream" uid="uid://bjgn0gf8jrev" path="res://Assets/SFX/foley_footstep_vinyl_2.wav" id="5_t8ueb"]
+[ext_resource type="AudioStream" uid="uid://bai1oa3852vdu" path="res://Assets/SFX/foley_footstep_vinyl_3.wav" id="6_qmj8e"]
+[ext_resource type="AudioStream" uid="uid://bmksv36p8f2xe" path="res://Assets/SFX/foley_footstep_vinyl_4.wav" id="7_68m3f"]
+[ext_resource type="AudioStream" uid="uid://bpogw5cnio78u" path="res://Assets/SFX/metal_blunt_tap.wav" id="8_4j2xn"]
+[ext_resource type="AudioStream" uid="uid://weaqesea3jfb" path="res://Assets/SFX/glass_ping_small.wav" id="9_j7gc2"]
+[ext_resource type="AudioStream" uid="uid://dm8bmfh0hxnwv" path="res://Assets/SFX/hurt.wav" id="10_68m3f"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yo7go"]
 light_mode = 1
@@ -257,6 +266,47 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_coxhp"]
 size = Vector2(8, 12)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qmj8e"]
+random_pitch = 1.0210121
+streams_count = 4
+stream_0/stream = ExtResource("4_2dja2")
+stream_1/stream = ExtResource("5_t8ueb")
+stream_2/stream = ExtResource("6_qmj8e")
+stream_3/stream = ExtResource("7_68m3f")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_68m3f"]
+random_pitch = 1.0313853
+streams_count = 2
+stream_0/stream = ExtResource("8_4j2xn")
+stream_1/stream = ExtResource("9_j7gc2")
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_2dja2"]
+stream_count = 1
+stream_0/stream = ExtResource("4_h6ae0")
+stream_0/volume = 0.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yo7go"]
+random_pitch = 1.0210121
+streams_count = 1
+stream_0/stream = SubResource("AudioStreamSynchronized_2dja2")
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_68m3f"]
+stream_count = 2
+stream_0/stream = ExtResource("4_h6ae0")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("5_afm8r")
+stream_1/volume = 0.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dx03v"]
+random_pitch = 1.0210121
+streams_count = 1
+stream_0/stream = SubResource("AudioStreamSynchronized_68m3f")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ijp7y"]
+random_pitch = 1.021307
+streams_count = 1
+stream_0/stream = ExtResource("10_68m3f")
+
 [node name="Player" type="CharacterBody2D" unique_id=56060189]
 z_index = -1
 collision_mask = 14
@@ -280,10 +330,34 @@ texture_scale = 0.5
 light_mask = 2
 material = SubResource("CanvasItemMaterial_yo7go")
 sprite_frames = SubResource("SpriteFrames_coxhp")
-animation = &"spin"
-frame_progress = 0.58112544
+animation = &"s_walk"
 centered = false
 offset = Vector2(-8, -10)
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1963323364]
 shape = SubResource("RectangleShape2D_coxhp")
+
+[node name="WalkAudio" type="AudioStreamPlayer2D" parent="." unique_id=1323182633]
+stream = SubResource("AudioStreamRandomizer_qmj8e")
+max_distance = 10000000000000.0
+bus = &"SFX"
+
+[node name="LandAudio" type="AudioStreamPlayer2D" parent="." unique_id=858591409]
+stream = SubResource("AudioStreamRandomizer_68m3f")
+max_distance = 10000000000000.0
+bus = &"SFX"
+
+[node name="JumpAudio" type="AudioStreamPlayer2D" parent="." unique_id=1615564955]
+stream = SubResource("AudioStreamRandomizer_yo7go")
+max_distance = 10000000000000.0
+bus = &"SFX"
+
+[node name="SpinboostAudio" type="AudioStreamPlayer2D" parent="." unique_id=1508341560]
+stream = SubResource("AudioStreamRandomizer_dx03v")
+max_distance = 10000000000000.0
+bus = &"SFX"
+
+[node name="DeathAudio" type="AudioStreamPlayer2D" parent="." unique_id=1095310044]
+stream = SubResource("AudioStreamRandomizer_ijp7y")
+max_distance = 10000000000000.0
+bus = &"SFX"

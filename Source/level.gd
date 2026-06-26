@@ -10,7 +10,6 @@ var true_bounds:Rect2:
 
 var cover_opacity:float = 1
 
-var level_cover:LevelCover
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	foreground_tiles = get_node("ForegroundTiles")
@@ -24,8 +23,6 @@ func _process(delta: float) -> void:
 		queue_redraw()
 	else:
 		queue_redraw()
-		level_cover.draw_cover = Main.main.get_player().current_level != self
-		level_cover.queue_redraw()
 
 func get_nearest_respawn(pos:Vector2):
 	var distance = INF

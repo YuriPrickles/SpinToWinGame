@@ -14,7 +14,7 @@ texture_filter = 1
 scroll_scale = Vector2(0.5, 0.5)
 repeat_size = Vector2(192, 192)
 autoscroll = Vector2(25, 25)
-repeat_times = 10
+repeat_times = 100
 ignore_camera_scroll = true
 
 [node name="Background" type="TextureRect" parent="Parallax2D" unique_id=828216068]
@@ -22,9 +22,8 @@ texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -6.0
 offset_right = 192.0
-offset_bottom = 186.0
+offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_16vuh")

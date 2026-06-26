@@ -669,30 +669,32 @@ position = Vector2(128, 112)
 text = "[center][font_size=64]Jump while spinning to do a [wave amp=50.0 freq=5.0, connected=0]spinboost[/wave]!
 [font_size=48](Only if you were grounded before.)"
 
-[node name="VeryBackground" type="CanvasLayer" parent="." unique_id=1663860944]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=596193414]
 follow_viewport_enabled = true
 
-[node name="VeryBackground2" type="CanvasLayer" parent="." unique_id=1137061505]
+[node name="CanvasLayer" type="CanvasLayer" parent="CanvasLayer" unique_id=1558809886]
 layer = -1
 follow_viewport_enabled = true
 
-[node name="Parallax2D" type="Parallax2D" parent="VeryBackground2" unique_id=513326627]
+[node name="Parallax2D" type="Parallax2D" parent="CanvasLayer/CanvasLayer" unique_id=1618184711]
+z_index = -99
+z_as_relative = false
 texture_filter = 1
 scroll_scale = Vector2(0.5, 0.5)
 repeat_size = Vector2(192, 192)
 autoscroll = Vector2(25, 25)
 repeat_times = 100
-follow_viewport = false
 ignore_camera_scroll = true
+screen_offset = Vector2(-8, -8)
 
-[node name="Background" type="TextureRect" parent="VeryBackground2/Parallax2D" unique_id=504464834]
+[node name="Background" type="TextureRect" parent="CanvasLayer/CanvasLayer/Parallax2D" unique_id=1505699493]
+clip_children = 2
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -6.0
 offset_right = 192.0
-offset_bottom = 186.0
+offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
 offset_transform_enabled = true

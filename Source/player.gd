@@ -10,6 +10,11 @@ const MAX_FALL_SPEED = 200
 @onready var camera: Camera2D = $Camera2D
 @onready var player_sprite: AnimatedSprite2D = $PlayerSprite
 @onready var collider: CollisionShape2D = $Collider
+@onready var walk_audio: AudioStreamPlayer2D = $WalkAudio
+@onready var land_audio: AudioStreamPlayer2D = $LandAudio
+@onready var jump_audio: AudioStreamPlayer2D = $JumpAudio
+@onready var death_audio: AudioStreamPlayer2D = $DeathAudio
+@onready var spinboost_audio: AudioStreamPlayer2D = $SpinboostAudio
 
 
 const COYOTE_MAX:float = 0.1
@@ -50,6 +55,8 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("debug_unkillable"):
 		spins = MAX_SPINS
+		coyote_timer = 0.05
+		really_dont_jump = false
 	if sign(velocity.x) != 0:
 		player_sprite.flip_h = sign(velocity.x) != 1
 	var levels = Main.main.map.levels
@@ -72,7 +79,9 @@ func _process(delta: float) -> void:
 		#camera.set_limit(SIDE_LEFT,current_level.true_bounds.position.x)
 		#camera.set_limit(SIDE_BOTTOM,current_level.true_bounds.position.y + current_level.true_bounds.size.y)
 		#camera.set_limit(SIDE_RIGHT,current_level.true_bounds.position.x + current_level.true_bounds.size.x)
+
 var really_dont_jump:bool = false
+var landed:bool = false
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		buffer_timer = 0
@@ -83,6 +92,8 @@ func _physics_process(delta: float) -> void:
 			StateMachine = State.JUMPING
 	if StateMachine == State.ROTATING or StateMachine == State.RESPAWNING: return
 	if not is_on_floor():
+		
+		landed = false
 		if Input.is_action_just_released("jump"):
 			really_dont_jump = true
 			StateMachine = State.NORMAL
@@ -95,15 +106,10 @@ func _physics_process(delta: float) -> void:
 	if not StateMachine == State.ROTATING and buffering and buffer_timer < BUFFER_MAX:
 		buffer_timer += delta
 	
-	#modulate = Color.WHITE
-	#if buffer_timer < BUFFER_MAX:
-		#modulate = Color.BLUE
-	#if coyote_timer > 0 and coyote_timer < COYOTE_MAX:
-		#modulate = Color.RED
-	#if buffer_timer < BUFFER_MAX and coyote_timer > 0 and coyote_timer < COYOTE_MAX:
-		#modulate = Color.PURPLE
-	
 	if is_on_floor():
+		if not landed:
+			land_audio.play()
+			landed = true
 		really_dont_jump = false
 		if coyote_timer >= 0 and StateMachine == State.NORMAL and spins < MAX_SPINS:
 			#modulate = Color.GREEN
@@ -120,6 +126,9 @@ func _physics_process(delta: float) -> void:
 	if spins > 0 and rotate_dir and not StateMachine == State.ROTATING:
 		var rotation_value = 90 * rotate_dir
 		rotate_level(rotation_value, true)
+	if Input.is_action_just_pressed("debug_unkillable"):
+		
+		walk_audio.play()
 	var direction := Input.get_axis("left", "right")
 	if vel_override_timer <= 0:
 		if direction:
@@ -156,7 +165,11 @@ func do_animation():
 	
 
 func jump(vel = JUMP_VELOCITY):
-	if next_jump_boost.y < 0: Main.main.freeze(0.1)
+	if next_jump_boost.y < 0:
+		spinboost_audio.play()
+		Main.main.freeze(0.1)
+	else:
+		jump_audio.play()
 	velocity.x = velocity.x + next_jump_boost.x + (40 * sign(velocity.x))
 	velocity.y = vel + next_jump_boost.y
 	next_jump_boost = Vector2.ZERO
@@ -170,8 +183,8 @@ func rotate_level(rot:int,manual=false):
 	tween.tween_property(camera,"rotation_degrees",camera.rotation_degrees + rot,0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.set_parallel()
 	tween.tween_property(Main.main.map,"rotation_degrees",Main.main.map.rotation_degrees - rot,0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(Main.main.map.get_node("VeryBackground"),"rotation",deg_to_rad(Main.main.map.rotation_degrees - rot),0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(Main.main.map.get_node("VeryBackground2"),"rotation",deg_to_rad(Main.main.map.rotation_degrees - rot),0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(Main.main.map.get_node("CanvasLayer"),"rotation",deg_to_rad(Main.main.map.rotation_degrees - rot),0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(Main.main.map.get_node("CanvasLayer/CanvasLayer"),"rotation",deg_to_rad(Main.main.map.rotation_degrees - rot),0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(player_sprite,"rotation_degrees",player_sprite.rotation_degrees + rot,0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(collider,"rotation_degrees", collider.rotation_degrees + rot,0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.set_parallel(false)
@@ -196,6 +209,7 @@ func respawn():
 	if Input.is_action_pressed("debug_unkillable"):
 		return
 	Main.main.freeze(0.1)
+	death_audio.play()
 	print(StateMachine)
 	if not StateMachine == State.RESPAWNING:
 		StateMachine = State.RESPAWNING
@@ -226,7 +240,11 @@ func respawn():
 func animate(animation:String, interrupt:bool=true, callback:Callable=func():pass):
 	if not interrupt:
 		await player_sprite.animation_looped
+		
 	player_sprite.play(animation)
+	if player_sprite.frame % 2 == 0 and player_sprite.animation.ends_with("walk"):
+		if (velocity.x != 0) and is_on_floor():
+			walk_audio.play()
 	if callback:
 		await player_sprite.animation_looped
 		callback.call()
