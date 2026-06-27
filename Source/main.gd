@@ -25,6 +25,7 @@ func _init() -> void:
 func _ready() -> void:
 	ui = $UI
 var saved_input
+@onready var music: AudioStreamPlayer = $Music
 
 var send_jump:bool = false
 var send_spin_L:bool = false
@@ -54,7 +55,32 @@ static func normalize_rotation(degrees:float) -> int:
 	var initial_normalized = (roundi(degrees) % 360)
 	if initial_normalized < 0: initial_normalized += 360
 	return initial_normalized
-
+var start_end_seq = false
+func ending_sequence():
+	if start_end_seq: return
+	start_end_seq = true
+	music.play(138.85)
+	var plr = get_player()
+	await plr.rotate_level(-(roundi(plr.collider.rotation_degrees) % 360))
+	var tween2 = create_tween()
+	tween2.tween_property(map.get_node("CanvasModulate"),"color",Color(0.247, 0.228, 0.255, 1.0),1)
+	tween2.set_parallel(true)
+	tween2.tween_property(plr.get_node("PointLight2D") as PointLight2D,"color",Color.WHITE,1)
+	(music.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_DISABLED
+	
+	plr.player_sprite.play("spin",1.4)
+	await get_tree().create_timer(142.20 - 138.85).timeout
+	plr.player_sprite.play("bow")
+	await get_tree().create_timer(3).timeout
+	var tween = create_tween()
+	tween.tween_property(ui.fade_out,"color",Color.BLACK,2)
+	tween.tween_callback(func():
+		ui.fin.show()
+		await get_tree().create_timer(2).timeout
+		ui.thanks.show()
+		await get_tree().create_timer(5).timeout
+		get_tree().quit()
+		)
 
 var listen_for_inputs:bool= false
 func freeze(time:float):

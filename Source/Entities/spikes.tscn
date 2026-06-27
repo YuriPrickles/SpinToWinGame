@@ -7,7 +7,8 @@ resource_local_to_scene = true
 size = Vector2(8, 4)
 
 [node name="Spikes" type="Area2D" unique_id=639336231]
-z_index = -1
+z_index = -3
+z_as_relative = false
 collision_layer = 2
 script = ExtResource("1_rgmxl")
 

@@ -23,6 +23,12 @@ func _process(delta: float) -> void:
 		queue_redraw()
 	else:
 		queue_redraw()
+		
+func reset_stuff():
+	for child in get_children():
+		if child is Refill:
+			child.timer = child.wait_time
+			child.show()
 
 func get_nearest_respawn(pos:Vector2):
 	var distance = INF

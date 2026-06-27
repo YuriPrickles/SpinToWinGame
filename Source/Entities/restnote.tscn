@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://duusp8ntbex2"]
+
+[ext_resource type="Script" uid="uid://bx34j31vpjnra" path="res://Source/Entities/restnote.gd" id="1_e31rs"]
+[ext_resource type="Texture2D" uid="uid://dqma0h0xcyc2d" path="res://Assets/Gameplay/objects/refill/refill.png" id="2_ub0fs"]
+[ext_resource type="Texture2D" uid="uid://cy8dar1ng1ad2" path="res://Assets/Misc/pointlight.png" id="3_22wq7"]
+[ext_resource type="Texture2D" uid="uid://b12fgt38tcyba" path="res://Assets/Gameplay/magicrest.png" id="3_ub0fs"]
+[ext_resource type="AudioStream" uid="uid://bh6bobepl7ful" path="res://Assets/SFX/grand_piano_chime_positive.wav" id="5_e31rs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc0a5"]
+atlas = ExtResource("2_ub0fs")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22wq7"]
+atlas = ExtResource("3_ub0fs")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_coxhp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc0a5")
+}],
+"loop": 1,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22wq7")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_coxhp"]
+size = Vector2(16, 48)
+
+[node name="RestNote" type="Area2D" unique_id=1112793889]
+script = ExtResource("1_e31rs")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=674685622]
+light_mask = 2
+z_index = -2
+z_as_relative = false
+sprite_frames = SubResource("SpriteFrames_coxhp")
+animation = &"idle"
+offset = Vector2(0, -0.83776385)
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1239379123]
+shape = SubResource("RectangleShape2D_coxhp")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1849771028]
+texture = ExtResource("3_22wq7")
+texture_scale = 0.2
+
+[node name="BreakAudio" type="AudioStreamPlayer2D" parent="." unique_id=946546647]
+stream = ExtResource("5_e31rs")
+max_distance = 9.223372e+18
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

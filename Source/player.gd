@@ -15,6 +15,7 @@ const MAX_FALL_SPEED = 200
 @onready var jump_audio: AudioStreamPlayer2D = $JumpAudio
 @onready var death_audio: AudioStreamPlayer2D = $DeathAudio
 @onready var spinboost_audio: AudioStreamPlayer2D = $SpinboostAudio
+@onready var spin_audio: AudioStreamPlayer2D = $SpinAudio
 
 
 const COYOTE_MAX:float = 0.1
@@ -52,7 +53,7 @@ func _ready() -> void:
 			respawn_attached = current_level.get_nearest_respawn(position)
 
 func _process(delta: float) -> void:
-	
+	if Main.main.start_end_seq: return
 	if Input.is_action_pressed("debug_unkillable"):
 		spins = MAX_SPINS
 		coyote_timer = 0.05
@@ -82,6 +83,11 @@ func _process(delta: float) -> void:
 var really_dont_jump:bool = false
 var landed:bool = false
 func _physics_process(delta: float) -> void:
+	if Main.main.start_end_seq:
+		velocity.x = move_toward(velocity.x, 0, DECEL)
+		velocity.y = MAX_FALL_SPEED
+		move_and_slide()
+		return
 	if Input.is_action_just_pressed("ui_accept"):
 		buffer_timer = 0
 		buffering = true
@@ -165,6 +171,8 @@ func do_animation():
 	
 
 func jump(vel = JUMP_VELOCITY):
+	if Input.is_action_pressed("debug_unkillable"):
+		next_jump_boost.y = JUMP_VELOCITY
 	if next_jump_boost.y < 0:
 		spinboost_audio.play()
 		Main.main.freeze(0.1)
@@ -175,6 +183,7 @@ func jump(vel = JUMP_VELOCITY):
 	next_jump_boost = Vector2.ZERO
 
 func rotate_level(rot:int,manual=false):
+	spin_audio.play()
 	var was_on_floor = is_on_floor()
 	var state_to_return = StateMachine
 	if not StateMachine == State.RESPAWNING:
@@ -194,7 +203,7 @@ func rotate_level(rot:int,manual=false):
 			if not is_on_floor():
 				StateMachine = State.JUMPING
 			next_jump_boost = Vector2(0,JUMP_VELOCITY * 0.5)
-			coyote_timer = -0.08
+			coyote_timer = -0.14
 		if manual:
 			spins -= 1
 		)
@@ -212,6 +221,9 @@ func respawn():
 	death_audio.play()
 	print(StateMachine)
 	if not StateMachine == State.RESPAWNING:
+		buffer_timer = BUFFER_MAX
+		buffering = false
+		coyote_timer = COYOTE_MAX
 		StateMachine = State.RESPAWNING
 		player_sprite.stop()
 		Main.main.map.add_child(OnDeathBoom.new(position))
@@ -231,6 +243,11 @@ func respawn():
 		
 		tween.set_parallel(false)
 		tween.tween_callback(func():
+			current_level.reset_stuff()
+			buffer_timer = BUFFER_MAX
+			buffering = false
+			coyote_timer = COYOTE_MAX
+			landed = true
 			StateMachine = State.NORMAL
 			draw_respawn_orb = false
 			queue_redraw()

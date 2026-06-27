@@ -3,8 +3,11 @@
 [ext_resource type="Script" uid="uid://ci6anrd4fhfoa" path="res://Source/Entities/refill.gd" id="1_jc0a5"]
 [ext_resource type="Texture2D" uid="uid://dqma0h0xcyc2d" path="res://Assets/Gameplay/objects/refill/refill.png" id="1_qlkg5"]
 [ext_resource type="Texture2D" uid="uid://cy8dar1ng1ad2" path="res://Assets/Misc/pointlight.png" id="3_665if"]
+[ext_resource type="AudioStream" uid="uid://84iiuchpxdnw" path="res://Assets/SFX/mech_sounds/Single_Mechanical Pack Vol 1_Misc Mechanical Device Lock_Close_01.wav" id="4_v4b3g"]
 [ext_resource type="AudioStream" uid="uid://m8ilmnmwjsya" path="res://Assets/SFX/metal_clang.wav" id="4_yl12e"]
 [ext_resource type="AudioStream" uid="uid://dm8bmfh0hxnwv" path="res://Assets/SFX/hurt.wav" id="5_4swje"]
+[ext_resource type="AudioStream" uid="uid://weaqesea3jfb" path="res://Assets/SFX/glass_ping_small.wav" id="5_6up18"]
+[ext_resource type="AudioStream" uid="uid://bh6bobepl7ful" path="res://Assets/SFX/grand_piano_chime_positive.wav" id="7_a86le"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jc0a5"]
 atlas = ExtResource("1_qlkg5")
@@ -36,10 +39,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_coxhp"]
 size = Vector2(12, 12)
 
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_lgtkn"]
+stream_count = 4
+stream_0/stream = ExtResource("4_v4b3g")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("5_6up18")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("5_4swje")
+stream_2/volume = -2.0
+stream_3/stream = ExtResource("7_a86le")
+stream_3/volume = 2.0
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_665if"]
-random_pitch = 1.0210121
+random_pitch = 1.005793
 streams_count = 1
-stream_0/stream = ExtResource("5_4swje")
+stream_0/stream = SubResource("AudioStreamSynchronized_lgtkn")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4swje"]
 random_pitch = 1.0210121
@@ -53,23 +67,23 @@ script = ExtResource("1_jc0a5")
 light_mask = 2
 sprite_frames = SubResource("SpriteFrames_coxhp")
 animation = &"idle"
-offset = Vector2(0, -0.9817557)
+offset = Vector2(0, 0.8861438)
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1239379123]
 shape = SubResource("RectangleShape2D_coxhp")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1849771028]
+visible = false
 texture = ExtResource("3_665if")
 texture_scale = 0.2
 
 [node name="BreakAudio" type="AudioStreamPlayer2D" parent="." unique_id=946546647]
 stream = SubResource("AudioStreamRandomizer_665if")
-pitch_scale = 5.0
 max_distance = 9.223372e+18
 
 [node name="RespawnAudio" type="AudioStreamPlayer2D" parent="." unique_id=185392791]
 stream = SubResource("AudioStreamRandomizer_4swje")
 volume_db = -4.0
-max_distance = 9.223372e+18
+max_distance = 200.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

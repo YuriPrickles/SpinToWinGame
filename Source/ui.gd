@@ -3,6 +3,9 @@ extends Control
 
 @onready var textbox_margin: MarginContainer = $TextboxMargin
 @onready var text_field: RichTextLabel = $TextboxMargin/ColorRect/Margin/Text
+@onready var fade_out: ColorRect = $FadeOut
+@onready var fin: RichTextLabel = $FadeOut/Fin
+@onready var thanks: RichTextLabel = $FadeOut/Thanks
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

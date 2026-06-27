@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://xubex1lrc3qc"
+path="res://.godot/imported/Single_Mechanical Pack Vol 1_Clockwork Wind Up_Engage_05.wav-1975a1055a419478aa491bcdae2e16e7.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/mech_sounds/Single_Mechanical Pack Vol 1_Clockwork Wind Up_Engage_05.wav"
+dest_files=["res://.godot/imported/Single_Mechanical Pack Vol 1_Clockwork Wind Up_Engage_05.wav-1975a1055a419478aa491bcdae2e16e7.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

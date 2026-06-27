@@ -23,6 +23,7 @@ var face_texture = preload("res://Assets/Gameplay/objects/rotationgate/rotationg
 func _ready() -> void:
 	z_index = Main.Depths.Entities
 
+@onready var shake_audio: AudioStreamPlayer2D = $ShakeAudio
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -43,6 +44,7 @@ func _process(delta: float) -> void:
 		if shake_timer > 0:
 			shake_timer -= delta
 		if Main.main.map.normalized_rotation != roundi(direction) != active:
+			shake_audio.play(0.7)
 			shake_timer = 0.1
 		active = Main.main.map.normalized_rotation != roundi(direction)
 		#if active and player_detector.get_overlapping_bodies().has(Main.main.get_player()):
@@ -52,6 +54,9 @@ func _process(delta: float) -> void:
 			if spike is Spikes:
 				spike.modulate = Color.GOLD if active else Color.DARK_SLATE_GRAY
 				spike.monitoring = active
+			if spike is Spring:
+				spike.modulate = Color.WHITE if active else Color.DARK_SLATE_GRAY
+				spike.active = active
 	else:
 		shake_timer = 0
 	queue_redraw()

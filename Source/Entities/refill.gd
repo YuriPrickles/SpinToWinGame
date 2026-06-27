@@ -32,10 +32,15 @@ func _process(delta: float) -> void:
 				if body is Player and body.spins < body.MAX_SPINS and not empty and not body.StateMachine == Player.State.ROTATING:
 					body.spins = body.MAX_SPINS
 					timer = 0
+					if one_use:
+						hide()
+						timer = -INF
 					empty = true
 					(body as Player).camera_shake(2,4,delta)
 					break_audio.play()
 					Main.main.freeze(delta * 5)
+	else:
+		$PointLight2D.hide()
 	sprite.offset.y = sin(Engine.get_frames_drawn() * 0.04)
 		
 

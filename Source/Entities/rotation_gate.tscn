@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://by7ehs7bbdhpc"]
 
 [ext_resource type="Script" uid="uid://vvqkmv4dhstu" path="res://Source/Entities/rotation_gate.gd" id="1_tym2y"]
+[ext_resource type="AudioStream" uid="uid://bpo6b6vukgfs5" path="res://Assets/SFX/mech_sounds/Single_Mechanical Pack Vol 1_Heavy Wooden Door on Rails_Close_Short.wav" id="2_lgtkn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_coxhp"]
 resource_local_to_scene = true
@@ -9,6 +10,16 @@ size = Vector2(24, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tym2y"]
 resource_local_to_scene = true
 size = Vector2(16, 16)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lgtkn"]
+random_pitch = 1.122462
+streams_count = 1
+stream_0/stream = ExtResource("2_lgtkn")
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_tym2y"]
+stream_count = 1
+stream_0/stream = SubResource("AudioStreamRandomizer_lgtkn")
+stream_0/volume = 0.0
 
 [node name="RotationGate" type="StaticBody2D" unique_id=1156283733]
 z_index = -1
@@ -26,3 +37,8 @@ collision_layer = 8
 [node name="Area2DCollider" type="CollisionShape2D" parent="PlayerDetector" unique_id=1442359996]
 shape = SubResource("RectangleShape2D_tym2y")
 debug_color = Color(0.71080154, 0.48607838, 0, 0.41960785)
+
+[node name="ShakeAudio" type="AudioStreamPlayer2D" parent="." unique_id=928670992]
+stream = SubResource("AudioStreamSynchronized_tym2y")
+pitch_scale = 2.0
+max_distance = 320.0

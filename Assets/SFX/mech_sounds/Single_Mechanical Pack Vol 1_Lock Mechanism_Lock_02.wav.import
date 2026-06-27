@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cyrvb4fqw8fe3"
+path="res://.godot/imported/Single_Mechanical Pack Vol 1_Lock Mechanism_Lock_02.wav-4bf4016f7845200da5200e9eb1e47f12.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/mech_sounds/Single_Mechanical Pack Vol 1_Lock Mechanism_Lock_02.wav"
+dest_files=["res://.godot/imported/Single_Mechanical Pack Vol 1_Lock Mechanism_Lock_02.wav-4bf4016f7845200da5200e9eb1e47f12.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
