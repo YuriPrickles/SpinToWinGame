@@ -45,7 +45,7 @@ z_index = -2
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_coxhp")
 animation = &"idle"
-offset = Vector2(0, -0.83776385)
+offset = Vector2(0, 0.63290435)
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1239379123]
 shape = SubResource("RectangleShape2D_coxhp")
@@ -57,5 +57,6 @@ texture_scale = 0.2
 [node name="BreakAudio" type="AudioStreamPlayer2D" parent="." unique_id=946546647]
 stream = ExtResource("5_e31rs")
 max_distance = 9.223372e+18
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

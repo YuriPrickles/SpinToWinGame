@@ -100,7 +100,9 @@ frame_progress = 0.18258972
 stream = SubResource("AudioStreamSynchronized_coxhp")
 pitch_scale = 5.0
 max_distance = 9999999.0
+bus = &"SFX"
 
 [node name="RetractAudio" type="AudioStreamPlayer2D" parent="." unique_id=218581331]
 stream = SubResource("AudioStreamRandomizer_coxhp")
 max_distance = 999999.0
+bus = &"SFX"

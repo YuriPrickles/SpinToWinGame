@@ -67,7 +67,7 @@ script = ExtResource("1_jc0a5")
 light_mask = 2
 sprite_frames = SubResource("SpriteFrames_coxhp")
 animation = &"idle"
-offset = Vector2(0, 0.8861438)
+offset = Vector2(0, -0.50607485)
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1239379123]
 shape = SubResource("RectangleShape2D_coxhp")
@@ -80,10 +80,12 @@ texture_scale = 0.2
 [node name="BreakAudio" type="AudioStreamPlayer2D" parent="." unique_id=946546647]
 stream = SubResource("AudioStreamRandomizer_665if")
 max_distance = 9.223372e+18
+bus = &"SFX"
 
 [node name="RespawnAudio" type="AudioStreamPlayer2D" parent="." unique_id=185392791]
 stream = SubResource("AudioStreamRandomizer_4swje")
 volume_db = -4.0
 max_distance = 200.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

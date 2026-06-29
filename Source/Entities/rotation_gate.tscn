@@ -42,3 +42,4 @@ debug_color = Color(0.71080154, 0.48607838, 0, 0.41960785)
 stream = SubResource("AudioStreamSynchronized_tym2y")
 pitch_scale = 2.0
 max_distance = 320.0
+bus = &"SFX"
